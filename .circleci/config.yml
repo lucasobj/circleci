@@ -6,5 +6,20 @@ jobs:
     steps:
       - checkout
       - run:
-          name: Build and Unit tests
-          command: 'mvn clean verify'
+          name: Build
+          command: 'mvn clean install'
+  test:
+    docker:
+      - image: maven:3.6-jdk-12
+    steps:
+      - checkout
+      - run:
+          name: Test
+          command: 'mvn clean test'
+
+workflows:
+  version: 2
+  default_workflow:
+    jobs:
+      - test
+      - build
