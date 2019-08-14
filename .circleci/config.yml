@@ -28,7 +28,7 @@ jobs:
           command: 'docker build . -t lucasfantacuci/apresentacao-circle-ci:${CIRCLE_BUILD_NUM}'
       - run:
           name: Tagging lastest build
-          command: 'docker tag lucasfantacuci/apresentacao-circle-ci:${CIRCLE_BUILD_NUM} lucasfantacuci/apresentacao-circle-ci::latest'
+          command: 'docker tag lucasfantacuci/apresentacao-circle-ci:${CIRCLE_BUILD_NUM} lucasfantacuci/apresentacao-circle-ci:latest'
       - run:
           name: Push latest to hub docker
           command: 'docker push lucasfantacuci/apresentacao-circle-ci:latest'
@@ -42,4 +42,10 @@ workflows:
     jobs:
       - test
       - build
-      - docker
+      - docker:
+          requires:
+            - test
+            - build
+          filters:
+            branches:
+              only: master
