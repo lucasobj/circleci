@@ -42,10 +42,14 @@ workflows:
     jobs:
       - test
       - build
-      - docker:
+      - approve:
+          type: approval
           requires:
             - test
             - build
+      - docker:
+          requires:
+            - approve
           filters:
             branches:
               only: master
